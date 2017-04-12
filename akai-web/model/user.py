@@ -30,6 +30,12 @@ class User(Document):
             return user
         return None
 
+    @staticmethod
+    def get_user_by_id(id):
+        for user in User.objects(id=id):
+            return user
+        return None
+
     def get_id(self):
         return self.username
 
@@ -40,6 +46,11 @@ class User(Document):
         else:
             self.is_authenticated = False
             self.is_active = False
+        self.save()
+
+    def logout(self):
+        self.is_authenticated = False
+        self.is_active = False
         self.save()
 
     @staticmethod

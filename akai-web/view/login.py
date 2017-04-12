@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 
-from flask_login import login_required, login_user
+from flask_login import current_user, login_required, login_user, logout_user
 
 from ..model.user import User
 from .. import login_manager
@@ -42,7 +42,15 @@ def login():
     return render_template('login.html', form=form)
 
 
+@blueprint.route('/logout')
+def logout():
+    current_user.logout()
+    logout_user()
+    return 'logged out'
+
+
 @blueprint.route('/stuff')
 @login_required
 def stuff():
     return 'secret stuff'
+
